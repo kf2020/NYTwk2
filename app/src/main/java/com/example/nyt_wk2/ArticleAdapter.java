@@ -66,7 +66,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             final Article articleAtPosition = mDataset.get(position);
-            holder.header_img.setImageResource(articleAtPosition.getImageDrawableId());
+            //holder.header_img.setImageResource(articleAtPosition.getImageDrawableId());
             holder.header_img.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Context context = v.getContext();
