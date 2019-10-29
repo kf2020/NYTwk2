@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.nyt_wk2.activities.DetailActivity;
+import com.example.nyt_wk2.model.Article;
+
 import java.util.ArrayList;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder> {
@@ -66,17 +70,21 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             final Article articleAtPosition = mDataset.get(position);
-            //holder.header_img.setImageResource(articleAtPosition.getImageDrawableId());
+
+            System.out.println(articleAtPosition.getThumbnailUrl());
+            Glide.with(holder.header_img.getContext()).load(articleAtPosition.getThumbnailUrl()).into(holder.header_img);
+
             holder.header_img.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra("articleID", articleAtPosition.getArticleID());
+                    intent.putExtra("articleID", articleAtPosition.getId());
                     context.startActivity(intent);
                 }
             });
-            holder.headline.setText(articleAtPosition.getHeadline());
-            holder.summary.setText(articleAtPosition.getSummary());
+            final long id = articleAtPosition.getId();
+            holder.headline.setText(articleAtPosition.getTitle());
+            holder.summary.setText(articleAtPosition.get_abstract());
             holder.likeButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     v.findViewById(R.id.like_btn).setBackgroundColor(Color.parseColor("#50ba32"));
@@ -86,8 +94,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
                 public void onClick(View v) {
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                     sharingIntent.setType("text/plain");
-                    String shareBody = FakeDatabase.getArticleById(1).getSummary();
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, FakeDatabase.getArticleById(1).getHeadline());
+                    String shareBody = articleAtPosition.get_abstract();
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, FakeDatabase.getArticleById(1).getTitle());
                     sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                     Context context = v.getContext();
                     context.startActivity(Intent.createChooser(sharingIntent, "Share via"));

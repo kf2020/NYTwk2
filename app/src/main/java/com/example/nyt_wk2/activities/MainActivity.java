@@ -1,4 +1,4 @@
-package com.example.nyt_wk2;
+package com.example.nyt_wk2.activities;
 
 
 import androidx.annotation.NonNull;
@@ -21,6 +21,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.nyt_wk2.ArticlesFragment;
+import com.example.nyt_wk2.BooksFragment;
+import com.example.nyt_wk2.ProfileFragment;
+import com.example.nyt_wk2.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.nyt_wk2;
+package com.example.nyt_wk2.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.nyt_wk2.FakeDatabase;
+import com.example.nyt_wk2.R;
+
 public class DetailActivity extends AppCompatActivity {
 
     Button like_btn, share_btn;
-    int artNum;
+    long artNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +24,17 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_article);
 
         Intent intent = getIntent();
-        artNum = intent.getIntExtra("articleID", 0);
+        artNum = intent.getLongExtra("articleID", 0);
         // String imgSrc = intent.getStringExtra("imgSrc");
 
         TextView title = findViewById(R.id.title_article);
-        title.setText(FakeDatabase.getArticleById(artNum).getHeadline());
+        title.setText(FakeDatabase.getArticleById(artNum).getTitle());
 
         TextView byline = findViewById(R.id.byline);
-        byline.setText("By " + FakeDatabase.getArticleById(artNum).getAuthor());
+        byline.setText(FakeDatabase.getArticleById(artNum).getByline());
 
         TextView content = findViewById(R.id.content_article);
-        content.setText(FakeDatabase.getArticleById(artNum).getContent());
+        content.setText(FakeDatabase.getArticleById(artNum).get_abstract());
 
         like_btn = findViewById(R.id.like_btn);
         like_btn.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +62,8 @@ public class DetailActivity extends AppCompatActivity {
     private void shareButtonClicked() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody = FakeDatabase.getArticleById(artNum).getSummary();
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, FakeDatabase.getArticleById(1).getHeadline());
+        String shareBody = FakeDatabase.getArticleById(artNum).get_abstract();
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, FakeDatabase.getArticleById(artNum).getTitle());
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }

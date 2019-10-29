@@ -1,4 +1,4 @@
-package com.example.nyt_wk2;
+package com.example.nyt_wk2.model;
 
 public class Book {
 
